@@ -1341,8 +1341,9 @@ const CONFIG = {
       group: 'The Boston Group',
       icon: '✈️',
       mode: 'fly',
-      note: null,
-      inbound:  null,  // e.g. 'DL890 · Jan 10 · departs 9:00am BOS · arrives 12:20pm MCO'
+      note: 'Arriving Jan 8 — staying off-site Fri &amp; Sat before joining the group at Wilderness Lodge on Jan 10',
+      inboundDate: 'Jan 8',
+      inbound:  null,  // e.g. 'DL890 · Jan 8 · departs 9:00am BOS · arrives 12:20pm MCO'
       outbound: null,  // e.g. 'DL456 · Jan 17 · departs 4:30pm MCO · arrives 8:00pm BOS'
     },
   ],
@@ -1488,7 +1489,7 @@ function showTab(id) {
             + '</div>'
             + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
             + '<div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">'
-            + '<div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">\uD83D\uDEEC Inbound \u00B7 Jan 10</div>'
+            + '<div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">\uD83D\uDEEC Inbound \u00B7 ' + (t.inboundDate || 'Jan 10') + '</div>'
             + '<div style="font-size:0.78rem;color:#444;line-height:1.4;">' + inb + '</div>'
             + '</div>'
             + '<div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">'
