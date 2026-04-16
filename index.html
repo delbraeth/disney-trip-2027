@@ -1429,7 +1429,7 @@ const CONFIG = {
     { name: 'Patrick',  role: 'Trip Leader',   xp: 'veteran',     avatar: '⚓' },
     { name: 'Veronica', role: '',              xp: 'veteran',     avatar: '👑' },
     { name: 'Kierstyn', role: 'Boston Group',  xp: 'experienced', avatar: '🌟' },
-    { name: 'Teagan',   role: 'KI Group',      xp: 'experienced', avatar: '🌟' },
+    { name: 'Teagan',   role: 'KI Group',      xp: 'allThat',     avatar: '🌟' },
     { name: 'Bailey',   role: 'KI Group',      xp: 'experienced', avatar: '✨' },
     { name: 'LaShaye',  role: 'KI Group',      xp: 'first',       avatar: '✨' },
     { name: 'Wesley',   role: 'Boston Group',  xp: 'first',       avatar: '🎩' },
@@ -1579,6 +1579,7 @@ function showTab(id) {
   const xpBadge = {
     veteran:    { cls: 'badge-vet',  label: '🏰 Disney Veteran' },
     experienced:{ cls: 'badge-exp',  label: '😊 Been a Few Times' },
+    allThat:    { cls: 'badge-exp',  label: '💅 Thinks She All That' },
     first:      { cls: 'badge-first',label: '🌟 First Timer!' },
   };
   document.getElementById('group-roster').innerHTML = CONFIG.group.map(p => {
