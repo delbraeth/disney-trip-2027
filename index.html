@@ -1461,14 +1461,6 @@ function showTab(id) {
     </div>`;
   }).join('');
 
-  document.getElementById('villa-rooms').innerHTML = CONFIG.rooms.map(r =>
-    `<div class="villa-room">
-      <div class="room-icon">${r.icon}</div>
-      <div class="room-type">${r.type}</div>
-      <div class="room-assign">${r.assign}</div>
-    </div>`
-  ).join('');
-
 })();
 
 // ── Travel details ───────────────────────────────────────
