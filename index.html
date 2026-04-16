@@ -1180,6 +1180,11 @@
   </div>
 
   <div class="card">
+    <div class="card-header"><span class="card-icon">🗺️</span><span class="card-title">Travel Details</span></div>
+    <div id="travel-details"></div>
+  </div>
+
+  <div class="card">
     <div class="card-header"><span class="card-icon">✈️</span><span class="card-title">Getting There</span></div>
     <div class="tip-item">
       <span class="tip-icon">🛬</span>
@@ -1310,6 +1315,38 @@ const CONFIG = {
     { icon: '🛋️', type: '1 Queen Pull-Down',    assign: 'The Boston Group' },
   ],
 
+  // ── Travel Details ──────────────────────────────────────
+  // Update inbound/outbound as flights are booked.
+  // For drivers, set mode: 'drive' and leave flights blank.
+  // For flyers, set mode: 'fly' and fill in flight details as known.
+  // Flight format: 'AA1234 · departs 8:00am · arrives 11:30am' or leave as null
+  travel: [
+    {
+      group: "Cap'n &amp; Veronica",
+      icon: '🚗',
+      mode: 'drive',
+      note: 'Driving down from home',
+      inbound:  null,
+      outbound: null,
+    },
+    {
+      group: 'The KI Group',
+      icon: '✈️',
+      mode: 'fly',
+      note: null,
+      inbound:  null,  // e.g. 'AA1234 · Jan 10 · departs 7:00am ORD · arrives 10:30am MCO'
+      outbound: null,  // e.g. 'AA5678 · Jan 17 · departs 3:00pm MCO · arrives 6:15pm ORD'
+    },
+    {
+      group: 'The Boston Group',
+      icon: '✈️',
+      mode: 'fly',
+      note: null,
+      inbound:  null,  // e.g. 'DL890 · Jan 10 · departs 9:00am BOS · arrives 12:20pm MCO'
+      outbound: null,  // e.g. 'DL456 · Jan 17 · departs 4:30pm MCO · arrives 8:00pm BOS'
+    },
+  ],
+
 };
 // ═══════════════════════════════════════════════════════════
 // END CONFIG — Don't edit below this line unless you want to
@@ -1431,6 +1468,37 @@ function showTab(id) {
       <div class="room-assign">${r.assign}</div>
     </div>`
   ).join('');
+
+  // ── Travel details ──────────────────────────────────────
+  document.getElementById('travel-details').innerHTML = CONFIG.travel.map(t => {
+    const TBD = '<span style="color:#bbb;font-style:italic;">TBD — not yet booked</span>';
+    if (t.mode === 'drive') {
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee;">
+        <span style="font-size:1.5rem;">${t.icon}</span>
+        <div>
+          <div style="font-weight:800;font-size:0.88rem;color:var(--blue);">${t.group}</div>
+          <div style="font-size:0.8rem;color:#555;margin-top:2px;">${t.note}</div>
+        </div>
+      </div>`;
+    }
+    return `<div style="padding:10px 0;border-bottom:1px solid #eee;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:1.3rem;">${t.icon}</span>
+        <span style="font-weight:800;font-size:0.88rem;color:var(--blue);">${t.group}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">
+          <div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">🛬 Inbound · Jan 10</div>
+          <div style="font-size:0.78rem;color:#444;line-height:1.4;">${t.inbound || TBD}</div>
+        </div>
+        <div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">
+          <div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">🛫 Outbound · Jan 17</div>
+          <div style="font-size:0.78rem;color:#444;line-height:1.4;">${t.outbound || TBD}</div>
+        </div>
+      </div>
+      ${t.note ? `<div style="font-size:0.75rem;color:#888;margin-top:6px;font-style:italic;">${t.note}</div>` : ''}
+    </div>`;
+  }).join('');
 })();
 
 // ── Starfield ────────────────────────────────────────────
