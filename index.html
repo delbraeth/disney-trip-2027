@@ -528,6 +528,7 @@
     </div>
 
     <form id="tripForm">
+      <input type="hidden" name="_subject" value="Disney Trip Survey Response" />
 
       <!-- WHO ARE YOU -->
       <div class="card">
@@ -1666,38 +1667,30 @@ const form = document.getElementById('tripForm');
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const data = new FormData(this);
-    const name = data.get('name') || 'Anonymous';
-
-    // Build a readable payload for Formspree
-    const payload = {
-      _subject: `Disney Trip Input from ${name}`,
-      Name: name,
-      Email: data.get('email') || 'not provided',
-      'Disney Experience': data.get('experience') || 'not specified',
-      'Excitement Level': data.get('excitement') || 'not specified',
-      'Dining Style': data.get('dining') || 'not specified',
-      'Experience Wish List': data.getAll('experiences').join(' | ') || 'none selected',
-      'Dining Experiences': data.getAll('food').join(' | ') || 'none selected',
-      'Dinner Shows': data.getAll('shows').join(' | ') || 'none selected',
-      'Notes': data.get('notes') || 'none',
-    };
+    const btn = this.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = '✨ Sending…';
 
     try {
       const res = await fetch('https://formspree.io/f/maqaeyqk', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload),
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' },
       });
       if (res.ok) {
         document.getElementById('tripForm').style.display = 'none';
         document.getElementById('thankyou').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        alert('Hmm, something went wrong. Please try again!');
+        const json = await res.json().catch(() => ({}));
+        alert('Submission error: ' + (json.error || res.status + ' — please try again.'));
+        btn.disabled = false;
+        btn.textContent = '✨ Send My Wishes! ✨';
       }
     } catch (err) {
-      alert('Submission failed — check your connection and try again.');
+      alert('Network error — check your connection and try again.');
+      btn.disabled = false;
+      btn.textContent = '✨ Send My Wishes! ✨';
     }
   });
 }
