@@ -1469,36 +1469,46 @@ function showTab(id) {
     </div>`
   ).join('');
 
-  // ── Travel details ──────────────────────────────────────
-  document.getElementById('travel-details').innerHTML = CONFIG.travel.map(t => {
-    const TBD = '<span style="color:#bbb;font-style:italic;">TBD — not yet booked</span>';
+})();
+
+// ── Travel details ───────────────────────────────────────
+(function buildTravel() {
+  var el = document.getElementById('travel-details');
+  if (!el || !CONFIG.travel) return;
+  var TBD = '<span style="color:#bbb;font-style:italic;">TBD \u2014 not yet booked</span>';
+  var html = '';
+  for (var i = 0; i < CONFIG.travel.length; i++) {
+    var t = CONFIG.travel[i];
     if (t.mode === 'drive') {
-      return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee;">
-        <span style="font-size:1.5rem;">${t.icon}</span>
-        <div>
-          <div style="font-weight:800;font-size:0.88rem;color:var(--blue);">${t.group}</div>
-          <div style="font-size:0.8rem;color:#555;margin-top:2px;">${t.note}</div>
-        </div>
-      </div>`;
+      html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee;">'
+            + '<span style="font-size:1.5rem;">' + t.icon + '</span>'
+            + '<div>'
+            + '<div style="font-weight:800;font-size:0.88rem;color:var(--blue);">' + t.group + '</div>'
+            + '<div style="font-size:0.8rem;color:#555;margin-top:2px;">' + (t.note || '') + '</div>'
+            + '</div></div>';
+    } else {
+      var inb  = t.inbound  ? t.inbound  : TBD;
+      var outb = t.outbound ? t.outbound : TBD;
+      html += '<div style="padding:10px 0;border-bottom:1px solid #eee;">'
+            + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'
+            + '<span style="font-size:1.3rem;">' + t.icon + '</span>'
+            + '<span style="font-weight:800;font-size:0.88rem;color:var(--blue);">' + t.group + '</span>'
+            + '</div>'
+            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+            + '<div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">'
+            + '<div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">\uD83D\uDEEC Inbound \u00B7 Jan 10</div>'
+            + '<div style="font-size:0.78rem;color:#444;line-height:1.4;">' + inb + '</div>'
+            + '</div>'
+            + '<div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">'
+            + '<div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">\uD83D\uDEEB Outbound \u00B7 Jan 17</div>'
+            + '<div style="font-size:0.78rem;color:#444;line-height:1.4;">' + outb + '</div>'
+            + '</div>'
+            + '</div>'
+            + (t.note ? '<div style="font-size:0.75rem;color:#888;margin-top:6px;font-style:italic;">' + t.note + '</div>' : '')
+            + '</div>';
     }
-    return `<div style="padding:10px 0;border-bottom:1px solid #eee;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="font-size:1.3rem;">${t.icon}</span>
-        <span style="font-weight:800;font-size:0.88rem;color:var(--blue);">${t.group}</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">
-          <div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">🛬 Inbound · Jan 10</div>
-          <div style="font-size:0.78rem;color:#444;line-height:1.4;">${t.inbound || TBD}</div>
-        </div>
-        <div style="background:#f0f4ff;border-radius:8px;padding:8px 10px;">
-          <div style="font-size:0.68rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">🛫 Outbound · Jan 17</div>
-          <div style="font-size:0.78rem;color:#444;line-height:1.4;">${t.outbound || TBD}</div>
-        </div>
-      </div>
-      ${t.note ? `<div style="font-size:0.75rem;color:#888;margin-top:6px;font-style:italic;">${t.note}</div>` : ''}
-    </div>`;
-  }).join('');
+  }
+  el.innerHTML = html;
 })();
 
 // ── Starfield ────────────────────────────────────────────
