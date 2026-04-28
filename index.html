@@ -600,8 +600,8 @@
     <div class="tip-item">
       <span class="tip-icon">🎽</span>
       <div class="tip-content">
-        <h4>Race Expo: Friday + Saturday Jan 8–9</h4>
-        <p>Bib pickup and the runDisney expo are at ESPN Wide World of Sports. Kierstyn + Wesley will be off-property part of those days. Cap'n &amp; Veronica arrive at the Lodge Friday evening Jan 8 after their drive from Ohio.</p>
+        <h4>Race Expo: Saturday Jan 9</h4>
+        <p>Kierstyn + Wesley fly in Saturday morning and head to ESPN Wide World of Sports for bib pickup at the runDisney expo (Saturday is the last day before Sunday's race). Cap'n &amp; Veronica arrive at the Lodge Saturday afternoon/evening after their 2-day drive from Ohio.</p>
       </div>
     </div>
   </div>
@@ -787,7 +787,7 @@
     <p style="font-size:0.9rem;color:#555;line-height:1.6;margin:0;">
       <strong style="color:#92400e;">Kierstyn</strong> is running the
       <strong style="color:#92400e;">Walt Disney World Marathon</strong> the
-      <strong style="color:#92400e;">morning of Sunday, January 10</strong> — racing 26.2 miles through all four parks the same day the rest of us arrive. 🎽 Wesley flies in with her on Friday Jan 8 to support; the race expo is at ESPN Wide World of Sports Fri/Sat. (For context: this is the woman who runs Iron Mans, so a full marathon is a Tuesday — she'll be ready to roll Monday.)
+      <strong style="color:#92400e;">morning of Sunday, January 10</strong> — racing 26.2 miles through all four parks the same day the rest of us arrive. 🎽 Wesley flies in with her on Saturday Jan 9 to support; bib pickup at the race expo happens that day. (For context: this is the woman who runs Iron Mans, so a full marathon is a Tuesday — she'll be ready to roll Monday.)
     </p>
   </div>
 
@@ -939,20 +939,14 @@ const CONFIG = {
   // park: 'Magic Kingdom' = sets the park badge
   itinerary: [
     {
-      day: 'Fri · Jan 8',
-      label: 'Early Arrivals · Boston Group + Cap\'n / Veronica',
-      park: null,
-      notes: 'Kierstyn & Wesley fly in for Marathon Weekend (race expo + bib pickup). Cap\'n & Veronica arrive after their 2-day drive from Ohio. Easy first night — likely Whispering Canyon Cafe at the Lodge for dinner.'
-    },
-    {
       day: 'Sat · Jan 9',
-      label: 'Pre-Marathon Day',
+      label: 'Boston Group + Cap\'n / Veronica Arrive',
       park: null,
-      notes: 'Kierstyn rests/tapers before the marathon. Wesley + Cap\'n + Veronica have a flexible day — possible Hollywood Studios half-day to ease Wesley into Disney before the crowds, or a low-key Disney Springs afternoon.'
+      notes: 'Kierstyn & Wesley fly in Saturday morning. Bib pickup + race expo at ESPN Wide World of Sports — last day to grab the bib before Sunday\'s race. Cap\'n & Veronica arrive at Wilderness Lodge after their 2-day drive from Ohio (on the road Jan 8–9). Easy dinner, early bedtime for the runner.'
     },
     {
       day: 'Sun · Jan 10',
-      label: 'Marathon Sunday + Group Arrival',
+      label: 'Marathon Sunday + KI Group Arrival',
       park: null,
       notes: 'Kierstyn runs the WDW Marathon (3am alarm 🏃‍♀️ — go Kierstyn!). KI Group flies in. Cap\'n & Veronica handle airport pickup. Marathon course closures across all 4 parks → no rope-drop today. Settle in, group dinner.'
     },
@@ -1040,7 +1034,7 @@ const CONFIG = {
       group: "Cap'n &amp; Veronica",
       icon: '🚗',
       mode: 'drive',
-      note: 'Driving from Ohio — 12 hours split over 2 days. On the road Jan 7–8, arriving Wilderness Lodge afternoon/evening Jan 8. Will have the car on-property for grocery runs, airport pickups, and Disney Springs trips.',
+      note: 'Driving from Ohio — 12 hours split over 2 days. On the road Jan 8–9, arriving Wilderness Lodge afternoon/evening Jan 9. Will have the car on-property for grocery runs, airport pickups, and Disney Springs trips.',
       inbound:  null,
       outbound: null,
     },
@@ -1056,9 +1050,9 @@ const CONFIG = {
       group: 'The Boston Group',
       icon: '✈️',
       mode: 'fly',
-      note: 'Flying in together Jan 8 for Marathon Weekend. Kierstyn at race expo Fri/Sat, racing Sun Jan 10. Wesley supporting at the finish line.',
-      inboundDate: 'Jan 8',
-      inbound:  null,  // e.g. 'DL890 · Jan 8 · departs 9:00am BOS · arrives 12:20pm MCO'
+      note: 'Flying in together Saturday Jan 9 (one day before the marathon). Bib pickup at the race expo same day. Kierstyn races Sun Jan 10; Wesley at the finish line.',
+      inboundDate: 'Jan 9',
+      inbound:  null,  // e.g. 'DL890 · Jan 9 · departs 9:00am BOS · arrives 12:20pm MCO'
       outbound: null,  // e.g. 'DL456 · Jan 17 · departs 4:30pm MCO · arrives 8:00pm BOS'
     },
   ],
