@@ -165,6 +165,14 @@
     .confirmed-value { color: #e8f0ff; font-weight: 700; font-size: 0.85rem; line-height: 1.4; }
     .confirmed-value small { font-weight: 500; font-size: 0.75rem; color: #a0b4d8; display: block; margin-top: 2px; }
 
+    /* ── GROUP CONSENSUS PICKS ── */
+    .consensus-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .consensus-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: linear-gradient(135deg, #f0f7ff, #f9f9ff); border-radius: 12px; border: 1px solid #dde6f5; }
+    .ci-icon { font-size: 1.4rem; }
+    .ci-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .ci-park { font-size: 0.62rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); }
+    .ci-name { font-size: 0.86rem; font-weight: 700; color: #1a1a2e; line-height: 1.2; }
+
     /* ── ANNOUNCEMENTS ── */
     .announcement {
       padding: 14px 16px; border-left: 4px solid var(--gold);
@@ -386,9 +394,6 @@
     <div class="nav-tab active" onclick="showTab('home')">
       <span class="tab-icon">🏠</span>Home
     </div>
-    <div class="nav-tab" onclick="showTab('survey')">
-      <span class="tab-icon">📋</span>Survey
-    </div>
     <div class="nav-tab" onclick="showTab('itinerary')">
       <span class="tab-icon">📅</span>Itinerary
     </div>
@@ -443,6 +448,18 @@
     <div id="announcements-list"></div>
   </div>
 
+  <!-- Group Consensus Picks -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">⭐</span>
+      <span class="card-title">Group Consensus Picks</span>
+    </div>
+    <p style="font-size:0.85rem;color:#555;margin:-6px 0 16px;line-height:1.5;">
+      All 5 survey respondents picked these — they're the trip anchors. Other attractions and the dining mix are still being worked through; expect more detail in the itinerary as we get closer.
+    </p>
+    <div class="consensus-grid" id="consensus-list"></div>
+  </div>
+
   <!-- Quick Links -->
   <div class="card">
     <div class="card-header">
@@ -487,604 +504,6 @@
 
 </div><!-- /panel-home -->
 
-
-<!-- ═══════════════════════════════════════════
-     SURVEY PANEL
-═══════════════════════════════════════════ -->
-<div class="panel" id="panel-survey">
-
-  <!-- Survey Closed Message (shown when CONFIG.surveyOpen = false) -->
-  <div class="dark-card survey-closed" id="survey-closed-msg" style="display:none">
-    <span class="sc-icon">✅</span>
-    <h3>Survey Complete!</h3>
-    <p>Thanks everyone for your input — Cap'n has collected all the responses and is putting together the perfect plan. Check the Itinerary tab for updates!</p>
-  </div>
-
-  <!-- Survey Form (shown when CONFIG.surveyOpen = true) -->
-  <div id="survey-form-wrap">
-
-    <div class="confirmed-banner" style="margin-bottom:16px">
-      <div class="confirmed-row">
-        <div class="confirmed-item">
-          <span class="confirmed-icon">📅</span>
-          <span class="confirmed-label">Dates</span>
-          <span class="confirmed-value">Jan 10 – 17, 2027</span>
-        </div>
-        <div class="confirmed-item">
-          <span class="confirmed-icon">🏰</span>
-          <span class="confirmed-label">Resort</span>
-          <span class="confirmed-value">Copper Creek Villas &amp; Cabins at Wilderness Lodge</span>
-        </div>
-        <div class="confirmed-item">
-          <span class="confirmed-icon">🛏️</span>
-          <span class="confirmed-label">Villa</span>
-          <span class="confirmed-value">2-Bedroom Villa · Resort View<small>1 King · 2 Queen · 1 Queen Pull-Down · Wheelchair &amp; Hearing Accessible</small></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="intro-card">
-      🏰 Hey friend! We're heading to the <strong>Most Magical Place on Earth</strong> — dates and hotel are <strong>locked in</strong>! Now we just need your input to plan the best possible week.<br/><br/>
-      Fill this out so we can build the perfect park schedule around <strong>what everyone actually wants to do</strong>. Takes about 3 minutes. Let's make some magic! 🌟
-    </div>
-
-    <form id="tripForm">
-      <input type="hidden" name="_subject" value="Disney Trip Survey Response" />
-
-      <!-- WHO ARE YOU -->
-      <div class="card">
-        <div class="card-header"><span class="card-icon">👤</span><span class="card-title">First, Who Are You?</span></div>
-
-        <label class="field-label" for="name">Your Name <span class="required-star">*</span></label>
-        <input type="text" id="name" name="name" placeholder="e.g. Mickey, Minnie..." required />
-
-        <label class="field-label" for="email">Your Email (optional — for updates)</label>
-        <input type="email" id="email" name="email" placeholder="youremail@example.com" />
-
-        <label class="field-label">Have you been to Walt Disney World before?</label>
-        <div class="radio-group">
-          <div class="radio-item"><input type="radio" id="exp1" name="experience" value="Yes - I'm a Disney veteran!"><label for="exp1">🏰 Disney veteran!</label></div>
-          <div class="radio-item"><input type="radio" id="exp2" name="experience" value="Yes - been once or twice"><label for="exp2">😊 Been once or twice</label></div>
-          <div class="radio-item"><input type="radio" id="exp3" name="experience" value="No - this is my first time!"><label for="exp3">🌟 First time ever!</label></div>
-        </div>
-        <div id="firsttimer-tip">
-          🎉 <strong>Welcome to the magic!</strong> Don't worry — Cap'n and Veronica have been many times and will help guide you through it all. Make sure you fill out your ride wish list so we can prioritize the classics and new favorites for you!
-        </div>
-      </div>
-
-      <!-- EXPERIENCES -->
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🏰</span><span class="card-title">Magic Kingdom — What Can't You Miss?</span></div>
-        <label class="field-label">Check everything you want to do or would hate to skip!</label>
-
-        <p class="section-label">⚡ Thrill Rides</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="mk1" name="experiences" value="MK: TRON Lightcycle Run"><label for="mk1"><span class="emoji">⚡</span>TRON Lightcycle Run</label></div>
-          <div class="check-item"><input type="checkbox" id="mk2" name="experiences" value="MK: Seven Dwarfs Mine Train"><label for="mk2"><span class="emoji">⛏️</span>Seven Dwarfs Mine Train</label></div>
-          <div class="check-item"><input type="checkbox" id="mk3" name="experiences" value="MK: Space Mountain"><label for="mk3"><span class="emoji">🚀</span>Space Mountain</label></div>
-          <div class="check-item"><input type="checkbox" id="mk4" name="experiences" value="MK: Big Thunder Mountain Railroad"><label for="mk4"><span class="emoji">🏔️</span>Big Thunder Mountain</label></div>
-          <div class="check-item"><input type="checkbox" id="mk5" name="experiences" value="MK: Tiana's Bayou Adventure"><label for="mk5"><span class="emoji">🐸</span>Tiana's Bayou Adventure</label></div>
-          <div class="check-item"><input type="checkbox" id="mk6" name="experiences" value="MK: The Barnstormer"><label for="mk6"><span class="emoji">✈️</span>The Barnstormer</label></div>
-        </div>
-
-        <p class="section-label">🎢 Classic &amp; Family Rides</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="mk7" name="experiences" value="MK: Haunted Mansion"><label for="mk7"><span class="emoji">👻</span>Haunted Mansion</label></div>
-          <div class="check-item"><input type="checkbox" id="mk8" name="experiences" value="MK: Pirates of the Caribbean"><label for="mk8"><span class="emoji">🏴‍☠️</span>Pirates of the Caribbean</label></div>
-          <div class="check-item"><input type="checkbox" id="mk9" name="experiences" value="MK: Peter Pan's Flight"><label for="mk9"><span class="emoji">🧚</span>Peter Pan's Flight</label></div>
-          <div class="check-item"><input type="checkbox" id="mk10" name="experiences" value="MK: Jungle Cruise"><label for="mk10"><span class="emoji">🐊</span>Jungle Cruise</label></div>
-          <div class="check-item"><input type="checkbox" id="mk11" name="experiences" value="MK: It's a Small World"><label for="mk11"><span class="emoji">🌍</span>It's a Small World</label></div>
-          <div class="check-item"><input type="checkbox" id="mk12" name="experiences" value="MK: The Many Adventures of Winnie the Pooh"><label for="mk12"><span class="emoji">🍯</span>Winnie the Pooh</label></div>
-          <div class="check-item"><input type="checkbox" id="mk13" name="experiences" value="MK: Buzz Lightyear's Space Ranger Spin"><label for="mk13"><span class="emoji">🎯</span>Buzz Lightyear Space Ranger Spin</label></div>
-          <div class="check-item"><input type="checkbox" id="mk14" name="experiences" value="MK: Under the Sea: Journey of the Little Mermaid"><label for="mk14"><span class="emoji">🐚</span>Journey of the Little Mermaid</label></div>
-          <div class="check-item"><input type="checkbox" id="mk15" name="experiences" value="MK: Dumbo the Flying Elephant"><label for="mk15"><span class="emoji">🐘</span>Dumbo the Flying Elephant</label></div>
-          <div class="check-item"><input type="checkbox" id="mk16" name="experiences" value="MK: Mad Tea Party (spinning teacups)"><label for="mk16"><span class="emoji">🍵</span>Mad Tea Party (Teacups)</label></div>
-          <div class="check-item"><input type="checkbox" id="mk18" name="experiences" value="MK: Tomorrowland Speedway"><label for="mk18"><span class="emoji">🏎️</span>Tomorrowland Speedway</label></div>
-        </div>
-
-        <p class="section-label">🎭 Shows &amp; Entertainment</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="mk19" name="experiences" value="MK: Festival of Fantasy Parade"><label for="mk19"><span class="emoji">🎺</span>Festival of Fantasy Parade</label></div>
-          <div class="check-item"><input type="checkbox" id="mk20" name="experiences" value="MK: Happily Ever After Fireworks"><label for="mk20"><span class="emoji">🎆</span>Happily Ever After Fireworks</label></div>
-          <div class="check-item"><input type="checkbox" id="mk21" name="experiences" value="MK: Mickey's Magical Friendship Faire (castle stage show)"><label for="mk21"><span class="emoji">🎪</span>Castle Stage Show</label></div>
-          <div class="check-item"><input type="checkbox" id="mk22" name="experiences" value="MK: Mickey's PhilharMagic"><label for="mk22"><span class="emoji">🎵</span>Mickey's PhilharMagic</label></div>
-          <div class="check-item"><input type="checkbox" id="mk23" name="experiences" value="MK: Country Bear Jamboree"><label for="mk23"><span class="emoji">🐻</span>Country Bear Jamboree</label></div>
-          <div class="check-item"><input type="checkbox" id="mk24" name="experiences" value="MK: Hall of Presidents"><label for="mk24"><span class="emoji">🎩</span>Hall of Presidents</label></div>
-          <div class="check-item"><input type="checkbox" id="mk25" name="experiences" value="MK: Enchanted Tiki Room"><label for="mk25"><span class="emoji">🦜</span>Enchanted Tiki Room</label></div>
-          <div class="check-item"><input type="checkbox" id="mk26" name="experiences" value="MK: Walt Disney World Railroad (Main Street to Fantasyland — Frontierland station closed for Piston Peak construction)"><label for="mk26"><span class="emoji">🚂</span>Walt Disney World Railroad (partial route)</label></div>
-        </div>
-
-        <p class="section-label">✨ Only-at-MK Experiences</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="mk27" name="experiences" value="MK: Meet Mickey & Minnie at Town Square Theater"><label for="mk27"><span class="emoji">🐭</span>Meet Mickey &amp; Minnie</label></div>
-          <div class="check-item"><input type="checkbox" id="mk28" name="experiences" value="MK: Princess meet & greet at Princess Fairytale Hall"><label for="mk28"><span class="emoji">👸</span>Princess Meet &amp; Greet</label></div>
-          <div class="check-item"><input type="checkbox" id="mk29" name="experiences" value="MK: Main Street USA shops & ice cream parlor"><label for="mk29"><span class="emoji">🏙️</span>Main Street USA &amp; Ice Cream</label></div>
-          <div class="check-item"><input type="checkbox" id="mk30" name="experiences" value="MK: Dole Whip at Aloha Isle"><label for="mk30"><span class="emoji">🍍</span>Dole Whip at Aloha Isle</label></div>
-          <div class="check-item"><input type="checkbox" id="mk31" name="experiences" value="MK: Cinderella Castle at dusk & after dark"><label for="mk31"><span class="emoji">🌙</span>Castle at Dusk / After Dark</label></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🌍</span><span class="card-title">EPCOT — What Can't You Miss?</span></div>
-        <div style="background:#fff8e0;border:1px solid var(--gold);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:0.88rem;color:#5a4000;line-height:1.6;">
-          🎨 <strong>Festival of the Arts is running Jan 10–17!</strong> EPCOT's most creative festival — art installations, food studios with artistic dishes, Disney on Broadway live performances, and paint-by-number murals. A special bonus for our trip!
-        </div>
-        <label class="field-label">Check everything you want to do or would hate to skip!</label>
-
-        <p class="section-label">⚡ Thrill &amp; Headliner Rides</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ep1" name="experiences" value="EPCOT: Guardians of the Galaxy Cosmic Rewind"><label for="ep1"><span class="emoji">🌌</span>Guardians: Cosmic Rewind</label></div>
-          <div class="check-item"><input type="checkbox" id="ep2" name="experiences" value="EPCOT: Test Track"><label for="ep2"><span class="emoji">🚗</span>Test Track</label></div>
-          <div class="check-item"><input type="checkbox" id="ep3" name="experiences" value="EPCOT: Soarin' Around the World"><label for="ep3"><span class="emoji">🪂</span>Soarin' Around the World</label></div>
-          <div class="check-item"><input type="checkbox" id="ep4" name="experiences" value="EPCOT: Mission: SPACE (Green — mild orbit)"><label for="ep4"><span class="emoji">🌕</span>Mission: SPACE (Green)</label></div>
-          <div class="check-item"><input type="checkbox" id="ep5" name="experiences" value="EPCOT: Mission: SPACE (Orange — intense Mars mission)"><label for="ep5"><span class="emoji">🔴</span>Mission: SPACE (Orange — intense!)</label></div>
-        </div>
-
-        <p class="section-label">🎢 Family &amp; Classic Rides</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ep6" name="experiences" value="EPCOT: Remy's Ratatouille Adventure"><label for="ep6"><span class="emoji">🐭</span>Remy's Ratatouille</label></div>
-          <div class="check-item"><input type="checkbox" id="ep7" name="experiences" value="EPCOT: Frozen Ever After"><label for="ep7"><span class="emoji">❄️</span>Frozen Ever After</label></div>
-          <div class="check-item"><input type="checkbox" id="ep8" name="experiences" value="EPCOT: Spaceship Earth"><label for="ep8"><span class="emoji">🌐</span>Spaceship Earth</label></div>
-          <div class="check-item"><input type="checkbox" id="ep9" name="experiences" value="EPCOT: Journey Into Imagination with Figment"><label for="ep9"><span class="emoji">🦄</span>Journey Into Imagination (Figment)</label></div>
-          <div class="check-item"><input type="checkbox" id="ep10" name="experiences" value="EPCOT: Living with the Land boat ride"><label for="ep10"><span class="emoji">🌱</span>Living with the Land</label></div>
-          <div class="check-item"><input type="checkbox" id="ep11" name="experiences" value="EPCOT: Turtle Talk with Crush"><label for="ep11"><span class="emoji">🐢</span>Turtle Talk with Crush</label></div>
-          <div class="check-item"><input type="checkbox" id="ep12" name="experiences" value="EPCOT: Gran Fiesta Tour (Mexico pavilion boat ride)"><label for="ep12"><span class="emoji">🎉</span>Gran Fiesta Tour (Mexico)</label></div>
-          <div class="check-item"><input type="checkbox" id="ep13" name="experiences" value="EPCOT: Disney & Pixar Short Film Festival"><label for="ep13"><span class="emoji">🎬</span>Pixar Short Film Festival</label></div>
-        </div>
-
-        <p class="section-label">🎨 Festival of the Arts (our exact dates!)</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ep14" name="experiences" value="EPCOT: Disney on Broadway live performances"><label for="ep14"><span class="emoji">🎭</span>Disney on Broadway Performances</label></div>
-          <div class="check-item"><input type="checkbox" id="ep15" name="experiences" value="EPCOT: Festival of the Arts food studios (artistic dishes)"><label for="ep15"><span class="emoji">🍱</span>Festival Food Studios</label></div>
-          <div class="check-item"><input type="checkbox" id="ep16" name="experiences" value="EPCOT: Art installations & Figment paint-by-number mural"><label for="ep16"><span class="emoji">🖼️</span>Art Installations &amp; Murals</label></div>
-          <div class="check-item"><input type="checkbox" id="ep17" name="experiences" value="EPCOT: Chalk art & street artist demonstrations"><label for="ep17"><span class="emoji">🎨</span>Chalk Art &amp; Street Artists</label></div>
-          <div class="check-item"><input type="checkbox" id="ep18" name="experiences" value="EPCOT: Browse festival merchandise & art prints"><label for="ep18"><span class="emoji">🛍️</span>Festival Merchandise &amp; Art Prints</label></div>
-        </div>
-
-        <p class="section-label">🌍 World Showcase Must-Dos</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ep19" name="experiences" value="EPCOT: Luminous the Global Celebration (nighttime spectacular)"><label for="ep19"><span class="emoji">🎆</span>Luminous Nighttime Spectacular</label></div>
-          <div class="check-item"><input type="checkbox" id="ep20" name="experiences" value="EPCOT: Eat & drink around the World Showcase"><label for="ep20"><span class="emoji">🍷</span>Eat &amp; Drink Around the World</label></div>
-          <div class="check-item"><input type="checkbox" id="ep21" name="experiences" value="EPCOT: Japan pavilion — shopping, taiko drums, sake"><label for="ep21"><span class="emoji">🎌</span>Japan Pavilion</label></div>
-          <div class="check-item"><input type="checkbox" id="ep22" name="experiences" value="EPCOT: Mexico pavilion — La Cava del Tequila bar"><label for="ep22"><span class="emoji">🌮</span>Mexico / La Cava del Tequila</label></div>
-          <div class="check-item"><input type="checkbox" id="ep23" name="experiences" value="EPCOT: Norway pavilion — Kringla Bakeri, aquavit shots"><label for="ep23"><span class="emoji">🇳🇴</span>Norway Pavilion &amp; Bakery</label></div>
-          <div class="check-item"><input type="checkbox" id="ep24" name="experiences" value="EPCOT: France pavilion — crepes, wine, Les Halles bakery"><label for="ep24"><span class="emoji">🗼</span>France Pavilion &amp; Les Halles</label></div>
-          <div class="check-item"><input type="checkbox" id="ep25" name="experiences" value="EPCOT: UK pavilion — Rose & Crown pub"><label for="ep25"><span class="emoji">🇬🇧</span>UK / Rose &amp; Crown Pub</label></div>
-          <div class="check-item"><input type="checkbox" id="ep26" name="experiences" value="EPCOT: Germany pavilion — Biergarten, pretzels, beer steins"><label for="ep26"><span class="emoji">🇩🇪</span>Germany Biergarten</label></div>
-          <div class="check-item"><input type="checkbox" id="ep27" name="experiences" value="EPCOT: Canada — O Canada! CircleVision film"><label for="ep27"><span class="emoji">🇨🇦</span>Canada &amp; O Canada! Film</label></div>
-          <div class="check-item"><input type="checkbox" id="ep28" name="experiences" value="EPCOT: Morocco pavilion — explore the medina marketplace"><label for="ep28"><span class="emoji">🕌</span>Morocco Pavilion</label></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🎬</span><span class="card-title">Hollywood Studios — What Can't You Miss?</span></div>
-        <label class="field-label">Check everything you want to do or would hate to skip!</label>
-
-        <p class="section-label">⚡ Top Thrill Rides</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="hs1" name="experiences" value="HS: Star Wars Rise of the Resistance"><label for="hs1"><span class="emoji">⭐</span>Rise of the Resistance</label></div>
-          <div class="check-item"><input type="checkbox" id="hs2" name="experiences" value="HS: Tower of Terror"><label for="hs2"><span class="emoji">🏨</span>Tower of Terror</label></div>
-          <div class="check-item"><input type="checkbox" id="hs3" name="experiences" value="HS: Rock 'n' Roller Coaster Starring the Muppets (rethemed summer 2026 — Electric Mayhem high-speed chase)"><label for="hs3"><span class="emoji">🎸</span>Rock 'n' Roller Coaster ★ The Muppets</label></div>
-          <div class="check-item"><input type="checkbox" id="hs4" name="experiences" value="HS: Slinky Dog Dash"><label for="hs4"><span class="emoji">🐕</span>Slinky Dog Dash</label></div>
-        </div>
-
-        <p class="section-label">🎢 More Rides &amp; Attractions</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="hs5" name="experiences" value="HS: Millennium Falcon Smugglers Run"><label for="hs5"><span class="emoji">🚀</span>Millennium Falcon: Smugglers Run</label></div>
-          <div class="check-item"><input type="checkbox" id="hs6" name="experiences" value="HS: Mickey & Minnie's Runaway Railway"><label for="hs6"><span class="emoji">🚂</span>Mickey &amp; Minnie's Railway</label></div>
-          <div class="check-item"><input type="checkbox" id="hs7" name="experiences" value="HS: Star Tours — The Adventures Continue"><label for="hs7"><span class="emoji">🛸</span>Star Tours</label></div>
-          <div class="check-item"><input type="checkbox" id="hs8" name="experiences" value="HS: Alien Swirling Saucers (Toy Story Land)"><label for="hs8"><span class="emoji">👾</span>Alien Swirling Saucers</label></div>
-          <div class="check-item"><input type="checkbox" id="hs9" name="experiences" value="HS: Toy Story Mania!"><label for="hs9"><span class="emoji">🎯</span>Toy Story Mania!</label></div>
-        </div>
-
-        <p class="section-label">🎭 Shows &amp; Entertainment</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="hs10" name="experiences" value="HS: Fantasmic! nighttime spectacular"><label for="hs10"><span class="emoji">🎆</span>Fantasmic! (nighttime show)</label></div>
-          <div class="check-item"><input type="checkbox" id="hs11" name="experiences" value="HS: Indiana Jones Epic Stunt Spectacular"><label for="hs11"><span class="emoji">🎩</span>Indiana Jones Stunt Spectacular</label></div>
-          <div class="check-item"><input type="checkbox" id="hs12" name="experiences" value="HS: Beauty and the Beast Live on Stage"><label for="hs12"><span class="emoji">🌹</span>Beauty &amp; the Beast Live on Stage</label></div>
-          <div class="check-item"><input type="checkbox" id="hs13" name="experiences" value="HS: Frozen Sing-Along Celebration"><label for="hs13"><span class="emoji">❄️</span>Frozen Sing-Along</label></div>
-          <div class="check-item"><input type="checkbox" id="hs15" name="experiences" value="HS: The Little Mermaid — A Musical Adventure (live show with puppetry, opened 2025)"><label for="hs15"><span class="emoji">🐚</span>The Little Mermaid — A Musical Adventure</label></div>
-        </div>
-
-        <p class="section-label">✨ Galaxy's Edge &amp; Unique Experiences</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="hs16" name="experiences" value="HS: Oga's Cantina (Star Wars bar — reservations recommended)"><label for="hs16"><span class="emoji">🍺</span>Oga's Cantina</label></div>
-          <div class="check-item"><input type="checkbox" id="hs17" name="experiences" value="HS: Build a lightsaber at Savi's Workshop (ticketed)"><label for="hs17"><span class="emoji">⚔️</span>Build a Lightsaber (Savi's)</label></div>
-          <div class="check-item"><input type="checkbox" id="hs18" name="experiences" value="HS: Build a droid at Droid Depot (ticketed)"><label for="hs18"><span class="emoji">🤖</span>Build a Droid (Droid Depot)</label></div>
-          <div class="check-item"><input type="checkbox" id="hs19" name="experiences" value="HS: Soak in the Galaxy's Edge immersive atmosphere"><label for="hs19"><span class="emoji">🌌</span>Galaxy's Edge Immersion</label></div>
-          <div class="check-item"><input type="checkbox" id="hs20" name="experiences" value="HS: Toy Story Land — feel tiny among giant toys"><label for="hs20"><span class="emoji">🪀</span>Toy Story Land Atmosphere</label></div>
-          <div class="check-item"><input type="checkbox" id="hs21" name="experiences" value="HS: Hollywood Boulevard & Echo Lake nostalgia stroll"><label for="hs21"><span class="emoji">🎬</span>Hollywood Blvd &amp; Echo Lake</label></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🦁</span><span class="card-title">Animal Kingdom — What Can't You Miss?</span></div>
-        <div style="background:#ffeaea;border:1px solid #f5b8b8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:0.88rem;color:#7a2020;line-height:1.6;">
-          🚧 <strong>Note:</strong> DinoLand U.S.A. is being demolished for the new Tropical Americas land (Encanto + Indiana Jones). The area will be walled off during our visit — attractions like DINOSAUR will likely be closed. Plan accordingly!
-        </div>
-        <label class="field-label">Check everything you want to do or would hate to skip!</label>
-
-        <p class="section-label">⚡ Top Thrill Rides</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ak1" name="experiences" value="AK: Avatar Flight of Passage"><label for="ak1"><span class="emoji">🐲</span>Avatar: Flight of Passage</label></div>
-          <div class="check-item"><input type="checkbox" id="ak2" name="experiences" value="AK: Expedition Everest — Legend of the Forbidden Mountain"><label for="ak2"><span class="emoji">🏔️</span>Expedition Everest</label></div>
-          <div class="check-item"><input type="checkbox" id="ak3" name="experiences" value="AK: Kali River Rapids (get soaked!)"><label for="ak3"><span class="emoji">💦</span>Kali River Rapids</label></div>
-        </div>
-
-        <p class="section-label">🎢 Family Rides &amp; Attractions</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ak4" name="experiences" value="AK: Na'vi River Journey"><label for="ak4"><span class="emoji">🌿</span>Na'vi River Journey</label></div>
-          <div class="check-item"><input type="checkbox" id="ak5" name="experiences" value="AK: Kilimanjaro Safaris"><label for="ak5"><span class="emoji">🐘</span>Kilimanjaro Safaris</label></div>
-          <div class="check-item"><input type="checkbox" id="ak6" name="experiences" value="AK: Wildlife Express Train to Rafiki's Planet Watch (reopening May 2026)"><label for="ak6"><span class="emoji">🚂</span>Wildlife Express Train</label></div>
-          <div class="check-item"><input type="checkbox" id="ak7" name="experiences" value="AK: Rafiki's Planet Watch — reimagined with Bluey interactive experience (reopening summer 2026)"><label for="ak7"><span class="emoji">🐶</span>Rafiki's Planet Watch (Bluey Experience)</label></div>
-        </div>
-
-        <p class="section-label">🎭 Shows &amp; Entertainment</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ak8" name="experiences" value="AK: Festival of the Lion King"><label for="ak8"><span class="emoji">🦁</span>Festival of the Lion King</label></div>
-          <div class="check-item"><input type="checkbox" id="ak9" name="experiences" value="AK: Finding Nemo: The Big Blue... and Beyond!"><label for="ak9"><span class="emoji">🐠</span>Finding Nemo: Big Blue &amp; Beyond</label></div>
-          <div class="check-item"><input type="checkbox" id="ak10" name="experiences" value="AK: Feathered Friends in Flight! (replaced UP! — free-flight bird show with macaws, hawks, owls)"><label for="ak10"><span class="emoji">🦜</span>Feathered Friends in Flight!</label></div>
-          <div class="check-item"><input type="checkbox" id="ak11" name="experiences" value="AK: Tree of Life Awakenings (nighttime projections)"><label for="ak11"><span class="emoji">🌟</span>Tree of Life Awakenings (night)</label></div>
-        </div>
-
-        <p class="section-label">🌿 Nature &amp; Exploration</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="ak12" name="experiences" value="AK: Pandora — World of Avatar at night (it glows!)"><label for="ak12"><span class="emoji">🌙</span>Pandora at Night (it glows!)</label></div>
-          <div class="check-item"><input type="checkbox" id="ak13" name="experiences" value="AK: Gorilla Falls Exploration Trail"><label for="ak13"><span class="emoji">🦍</span>Gorilla Falls Exploration Trail</label></div>
-          <div class="check-item"><input type="checkbox" id="ak14" name="experiences" value="AK: Maharajah Jungle Trek (tigers, bats, birds)"><label for="ak14"><span class="emoji">🐅</span>Maharajah Jungle Trek</label></div>
-          <div class="check-item"><input type="checkbox" id="ak15" name="experiences" value="AK: Discovery Island Trails around the Tree of Life"><label for="ak15"><span class="emoji">🦋</span>Discovery Island Trails</label></div>
-          <div class="check-item"><input type="checkbox" id="ak16" name="experiences" value="AK: Tree of Life & find all the hidden animals in the carvings"><label for="ak16"><span class="emoji">🌳</span>Tree of Life &amp; Hidden Animals</label></div>
-          <div class="check-item"><input type="checkbox" id="ak17" name="experiences" value="AK: Early morning safari (best wildlife viewing)"><label for="ak17"><span class="emoji">🌅</span>Early Morning Safari</label></div>
-        </div>
-      </div>
-
-      <!-- ARTSY -->
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🎨</span><span class="card-title">Artsy &amp; Cultural Experiences — Resorts &amp; Beyond</span></div>
-        <div style="background:#f3f0ff;border:1px solid #c4b5fd;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:0.88rem;color:#3b1f6e;line-height:1.6;">
-          🖌️ Disney's deluxe resorts are <strong>destinations in their own right</strong> — massive murals, authentic African art collections, architect-designed lobbies, and live music. All of these are free to explore as day guests — just hop an internal bus or monorail!
-        </div>
-        <label class="field-label">Check anything that sounds up your alley!</label>
-
-        <p class="section-label">🏨 Our Resort — Wilderness Lodge</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="art1" name="experiences" value="ART: Wilderness Lodge lobby art tour — totem poles, timber work, geothermal spring"><label for="art1"><span class="emoji">🪵</span>Wilderness Lodge Lobby Art Tour</label></div>
-          <div class="check-item"><input type="checkbox" id="art2" name="experiences" value="ART: Wilderness Lodge rooftop geyser & Pacific Northwest stonework"><label for="art2"><span class="emoji">💧</span>Geyser &amp; Pacific NW Stonework</label></div>
-          <div class="check-item"><input type="checkbox" id="art3" name="experiences" value="ART: Wilderness Lodge fireplace hearth mosaic & Native American art pieces"><label for="art3"><span class="emoji">🔥</span>Lobby Fireplace Mosaic &amp; Artwork</label></div>
-        </div>
-
-        <p class="section-label">🖼️ Resort Art Hopping</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="art4" name="experiences" value="ART: Contemporary Resort — Mary Blair 90-foot tile mural (Children of the World)"><label for="art4"><span class="emoji">🎨</span>Contemporary — Mary Blair Tile Mural</label></div>
-          <div class="check-item"><input type="checkbox" id="art5" name="experiences" value="ART: Animal Kingdom Lodge — African art collection tour (authentic masks, textiles, sculptures)"><label for="art5"><span class="emoji">🦒</span>AKL African Art Collection Tour</label></div>
-          <div class="check-item"><input type="checkbox" id="art6" name="experiences" value="ART: Animal Kingdom Lodge — giraffe savanna viewing at sunrise or sunset"><label for="art6"><span class="emoji">🌅</span>AKL Savanna at Sunrise/Sunset</label></div>
-          <div class="check-item"><input type="checkbox" id="art7" name="experiences" value="ART: Grand Floridian — live Victorian-era piano in the atrium lobby"><label for="art7"><span class="emoji">🎹</span>Grand Floridian Lobby Piano</label></div>
-          <div class="check-item"><input type="checkbox" id="art8" name="experiences" value="ART: Grand Floridian — Victorian architecture and ornate floral displays"><label for="art8"><span class="emoji">🌸</span>Grand Floridian Victorian Architecture</label></div>
-          <div class="check-item"><input type="checkbox" id="art9" name="experiences" value="ART: BoardWalk Resort — carnival art, vintage entertainment murals, street performers"><label for="art9"><span class="emoji">🎡</span>BoardWalk Carnival Art &amp; Murals</label></div>
-          <div class="check-item"><input type="checkbox" id="art10" name="experiences" value="ART: Polynesian Village — Tiki art, Hawaiian cultural theming, and Bora Bora longhouse architecture"><label for="art10"><span class="emoji">🌺</span>Polynesian Tiki Art &amp; Cultural Theming</label></div>
-        </div>
-
-        <p class="section-label">🎨 EPCOT Festival of the Arts (our trip dates!)</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="art11" name="experiences" value="ART: EPCOT Festival of the Arts — Figment-themed chalk art & mural installations"><label for="art11"><span class="emoji">🦄</span>Figment Chalk Art &amp; Installations</label></div>
-          <div class="check-item"><input type="checkbox" id="art12" name="experiences" value="ART: EPCOT Festival of the Arts — paint-by-number community mural"><label for="art12"><span class="emoji">🖌️</span>Community Paint-by-Number Mural</label></div>
-          <div class="check-item"><input type="checkbox" id="art13" name="experiences" value="ART: EPCOT Festival of the Arts — Disney on Broadway live vocal performances"><label for="art13"><span class="emoji">🎭</span>Disney on Broadway Performances</label></div>
-          <div class="check-item"><input type="checkbox" id="art14" name="experiences" value="ART: EPCOT Festival of the Arts — Figment art merchandise & limited-edition prints"><label for="art14"><span class="emoji">🛍️</span>Limited-Edition Art Prints &amp; Merch</label></div>
-          <div class="check-item"><input type="checkbox" id="art15" name="experiences" value="ART: EPCOT World Showcase — street artists and live demonstrations by pavilion"><label for="art15"><span class="emoji">✏️</span>World Showcase Street Artists</label></div>
-        </div>
-
-        <p class="section-label">🌟 Park Architecture &amp; Environmental Storytelling</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="art16" name="experiences" value="ART: Pandora world-building — floating mountains, bioluminescent plants, Na'vi language signage"><label for="art16"><span class="emoji">🌿</span>Pandora Environmental Storytelling</label></div>
-          <div class="check-item"><input type="checkbox" id="art17" name="experiences" value="ART: Animal Kingdom Tree of Life — 325 carvings of animals hidden in the trunk and roots"><label for="art17"><span class="emoji">🌳</span>Tree of Life — 325 Hidden Animal Carvings</label></div>
-          <div class="check-item"><input type="checkbox" id="art18" name="experiences" value="ART: Hollywood Studios — Art Deco Hollywood architecture and neon signage on Sunset Blvd"><label for="art18"><span class="emoji">🎬</span>Hollywood Blvd Art Deco &amp; Neon</label></div>
-          <div class="check-item"><input type="checkbox" id="art19" name="experiences" value="ART: EPCOT Spaceship Earth — Buckminster Fuller geodesic design & inside mosaic ceiling"><label for="art19"><span class="emoji">🌐</span>Spaceship Earth Geodesic Design</label></div>
-          <div class="check-item"><input type="checkbox" id="art20" name="experiences" value="ART: Magic Kingdom Main Street USA — Victorian-era storefronts & forced perspective Cinderella Castle"><label for="art20"><span class="emoji">🏰</span>Main Street Forced Perspective Architecture</label></div>
-          <div class="check-item"><input type="checkbox" id="art21" name="experiences" value="ART: Harambe village at Animal Kingdom — hand-painted signage, authentic African architecture details"><label for="art21"><span class="emoji">🏘️</span>Harambe Village Authentic Detailing</label></div>
-        </div>
-
-        <p class="section-label">✋ Hands-On &amp; Make-It Experiences</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="art22" name="experiences" value="ART: Fort Wilderness — tie-dye your own shirt (walk/boat from Wilderness Lodge)"><label for="art22"><span class="emoji">👕</span>Tie-Dye Shirts at Fort Wilderness</label></div>
-          <div class="check-item"><input type="checkbox" id="art23" name="experiences" value="ART: Hollywood Studios — Magic of Disney Animation experience (new Walt Disney Studios area, opening May 2026)"><label for="art23"><span class="emoji">✏️</span>Magic of Disney Animation (new Walt Disney Studios area)</label></div>
-          <div class="check-item"><input type="checkbox" id="art25" name="experiences" value="ART: Animal Kingdom — Wilderness Explorer badges (earn stamps at interactive stations across the park)"><label for="art25"><span class="emoji">🪖</span>Wilderness Explorer Badges (AK)</label></div>
-          <div class="check-item"><input type="checkbox" id="art26" name="experiences" value="ART: MK — Bibbidi Bobbidi Boutique makeover (hair, makeup, costumes — book early)"><label for="art26"><span class="emoji">👑</span>Bibbidi Bobbidi Boutique Makeover</label></div>
-          <div class="check-item"><input type="checkbox" id="art27" name="experiences" value="ART: Fort Wilderness — archery experience (backwoods skill, short walk from Wilderness Lodge)"><label for="art27"><span class="emoji">🏹</span>Archery at Fort Wilderness</label></div>
-          <div class="check-item"><input type="checkbox" id="art28" name="experiences" value="ART: Fort Wilderness — campfire, s'mores & Chip 'n' Dale singalong at night"><label for="art28"><span class="emoji">🔥</span>Fort Wilderness Campfire &amp; S'mores</label></div>
-          <div class="check-item"><input type="checkbox" id="art29" name="experiences" value="ART: Hollywood Studios — build a custom lightsaber at Savi's Workshop (the most artisan experience on property)"><label for="art29"><span class="emoji">⚔️</span>Savi's Lightsaber — Most Artisan Experience</label></div>
-        </div>
-
-        <p class="section-label">🛍️ Disney Springs &amp; Shopping Art</p>
-        <div class="check-grid">
-          <div class="check-item"><input type="checkbox" id="art30" name="experiences" value="ART: Disney Springs — The Art of Disney gallery (original animation cels, prints, sculptures)"><label for="art30"><span class="emoji">🖼️</span>Art of Disney Gallery</label></div>
-          <div class="check-item"><input type="checkbox" id="art31" name="experiences" value="ART: Disney Springs — browse unique concept art and collectibles at World of Disney"><label for="art31"><span class="emoji">🛒</span>World of Disney Concept Art &amp; Collectibles</label></div>
-          <div class="check-item"><input type="checkbox" id="art32" name="experiences" value="ART: Disney Springs — The Edison steampunk art deco bar & live entertainment venue"><label for="art32"><span class="emoji">⚙️</span>The Edison — Steampunk Art Deco Bar</label></div>
-        </div>
-      </div>
-
-      <!-- DINING -->
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🍽️</span><span class="card-title">Food &amp; Dining Vibes</span></div>
-
-        <label class="field-label">What's your dining style preference?</label>
-        <div class="radio-group">
-          <div class="radio-item"><input type="radio" id="din1" name="dining" value="Mostly quick service to save time & money"><label for="din1">⚡ Mostly Quick Service</label></div>
-          <div class="radio-item"><input type="radio" id="din2" name="dining" value="Mix of quick service and table service"><label for="din2">⚖️ Mix of Both</label></div>
-          <div class="radio-item"><input type="radio" id="din3" name="dining" value="Love a nice sit-down dinner"><label for="din3">🕯️ Nice Sit-Down Dinners</label></div>
-        </div>
-
-        <label class="field-label">Which restaurants are you interested in? Check all that appeal to you!</label>
-
-        <p class="section-label">🏕️ Wilderness Lodge — Our Resort!</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_wl1" name="food" value="Storybook Dining at Artist Point (Snow White character dinner)">
-            <label for="f_wl1"><span class="emoji">🍎</span>Storybook Dining at Artist Point<span class="char-badge">🐭 Character Dining</span></label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/wilderness-lodge-resort/storybook-dining-at-artist-point/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_wl2" name="food" value="Whispering Canyon Cafe">
-            <label for="f_wl2"><span class="emoji">🤠</span>Whispering Canyon Cafe</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/wilderness-lodge-resort/whispering-canyon-cafe/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_wl3" name="food" value="Geyser Point Bar & Grill">
-            <label for="f_wl3"><span class="emoji">🌊</span>Geyser Point Bar &amp; Grill</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/wilderness-lodge-resort/geyser-point-bar-and-grill/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_wl4" name="food" value="Roaring Fork (quick service at the lodge)">
-            <label for="f_wl4"><span class="emoji">☕</span>Roaring Fork</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/wilderness-lodge-resort/roaring-fork/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-        </div>
-
-        <p class="section-label">🏰 Magic Kingdom</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_mk1" name="food" value="Be Our Guest Restaurant">
-            <label for="f_mk1"><span class="emoji">🥀</span>Be Our Guest</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/magic-kingdom/be-our-guest-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_mk2" name="food" value="Cinderella's Royal Table">
-            <label for="f_mk2"><span class="emoji">👑</span>Cinderella's Royal Table<span class="char-badge">🐭 Character Dining</span></label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/magic-kingdom/cinderella-royal-table/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_mk3" name="food" value="The Crystal Palace (character dining)">
-            <label for="f_mk3"><span class="emoji">🐯</span>The Crystal Palace<span class="char-badge">🐭 Character Dining</span></label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/magic-kingdom/crystal-palace/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_mk4" name="food" value="The Plaza Restaurant">
-            <label for="f_mk4"><span class="emoji">🥪</span>The Plaza Restaurant</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/magic-kingdom/plaza-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-        </div>
-
-        <p class="section-label">🌍 EPCOT</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_ep1" name="food" value="Space 220 Restaurant">
-            <label for="f_ep1"><span class="emoji">🚀</span>Space 220</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/epcot/space-220-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ep2" name="food" value="Le Cellier Steakhouse">
-            <label for="f_ep2"><span class="emoji">🥩</span>Le Cellier Steakhouse</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/epcot/le-cellier-steakhouse/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ep3" name="food" value="Coral Reef Restaurant">
-            <label for="f_ep3"><span class="emoji">🐠</span>Coral Reef Restaurant</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/epcot/coral-reef-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ep4" name="food" value="Garden Grill (character dining)">
-            <label for="f_ep4"><span class="emoji">🌱</span>Garden Grill<span class="char-badge">🐭 Character Dining</span></label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/epcot/garden-grill-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ep5" name="food" value="Spice Road Table (Morocco)">
-            <label for="f_ep5"><span class="emoji">🫙</span>Spice Road Table</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/epcot/spice-road-table/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ep6" name="food" value="World Showcase food crawl">
-            <label for="f_ep6"><span class="emoji">🌮</span>World Showcase Crawl</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/destinations/epcot/world-showcase/" target="_blank" rel="noopener">🌍 explore ↗</a>
-          </div>
-        </div>
-
-        <p class="section-label">🎬 Hollywood Studios</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_hs1" name="food" value="50s Prime Time Cafe">
-            <label for="f_hs1"><span class="emoji">📺</span>50's Prime Time Café</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/hollywood-studios/50s-prime-time-cafe/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_hs2" name="food" value="Sci-Fi Dine-In Theater">
-            <label for="f_hs2"><span class="emoji">🛸</span>Sci-Fi Dine-In Theater</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/hollywood-studios/sci-fi-dine-in-theater/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_hs3" name="food" value="The Hollywood Brown Derby">
-            <label for="f_hs3"><span class="emoji">🎩</span>Hollywood Brown Derby</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/hollywood-studios/hollywood-brown-derby/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_hs4" name="food" value="Oga's Cantina (Star Wars)">
-            <label for="f_hs4"><span class="emoji">🍺</span>Oga's Cantina</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/hollywood-studios/ogas-cantina/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-        </div>
-
-        <p class="section-label">🦁 Animal Kingdom</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_ak1" name="food" value="Tiffins">
-            <label for="f_ak1"><span class="emoji">🌍</span>Tiffins</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/animal-kingdom/tiffins/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ak2" name="food" value="Yak & Yeti Restaurant">
-            <label for="f_ak2"><span class="emoji">🏔️</span>Yak &amp; Yeti</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/animal-kingdom/yak-and-yeti-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ak3" name="food" value="Tusker House (character dining)">
-            <label for="f_ak3"><span class="emoji">🐘</span>Tusker House<span class="char-badge">🐭 Character Dining</span></label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/animal-kingdom/tusker-house-restaurant/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ak4" name="food" value="Satu'li Canteen (Pandora)">
-            <label for="f_ak4"><span class="emoji">🐲</span>Satu'li Canteen</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/animal-kingdom/satuli-canteen/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-        </div>
-
-        <p class="section-label">🎪 Dinner Shows</p>
-        <div style="background:#fff3cd;border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:0.8rem;color:#5a4000;line-height:1.5;">
-          🎟️ <strong>Ticketed experiences</strong> — reservations required, separate admission. Extremely popular; books up months in advance.
-        </div>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_ds1" name="food" value="Hoop-Dee-Doo Musical Revue (Fort Wilderness — dinner show)">
-            <label for="f_ds1"><span class="emoji">🪗</span>Hoop-Dee-Doo Musical Revue</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/entertainment/fort-wilderness-resort/hoop-dee-doo-musical-revue/" target="_blank" rel="noopener">📋 details ↗</a>
-          </div>
-        </div>
-
-        <p class="section-label">🌴 Other Resorts &amp; Disney Springs</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="f_ot1" name="food" value="'Ohana (Polynesian Resort)">
-            <label for="f_ot1"><span class="emoji">🍍</span>'Ohana<span class="char-badge">🐭 Characters (breakfast only)</span></label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/polynesian-resort/ohana/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ot2" name="food" value="California Grill (Contemporary — fireworks view)">
-            <label for="f_ot2"><span class="emoji">🌅</span>California Grill</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/contemporary-resort/california-grill/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ot3" name="food" value="Narcoossee's (Grand Floridian — waterfront)">
-            <label for="f_ot3"><span class="emoji">⛵</span>Narcoossee's</label>
-            <a class="menu-link" href="https://disneyworld.disney.go.com/dining/grand-floridian-resort-and-spa/narcoossees/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ot4" name="food" value="The BOATHOUSE (Disney Springs)">
-            <label for="f_ot4"><span class="emoji">⚓</span>The BOATHOUSE</label>
-            <a class="menu-link" href="https://www.theboathouseorlando.com/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ot5" name="food" value="Morimoto Asia (Disney Springs)">
-            <label for="f_ot5"><span class="emoji">🍱</span>Morimoto Asia</label>
-            <a class="menu-link" href="https://www.patinagroup.com/morimoto-asia/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="f_ot6" name="food" value="Wine Bar George (Disney Springs)">
-            <label for="f_ot6"><span class="emoji">🍷</span>Wine Bar George</label>
-            <a class="menu-link" href="https://www.winebargeorge.com/menus/" target="_blank" rel="noopener">📋 view menu ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- BARS -->
-      <div class="card">
-        <div class="card-header"><span class="card-icon">🍹</span><span class="card-title">Bars &amp; Lounges — Any Interest?</span></div>
-        <div style="background:#f3f0ff;border:1px solid #c4b5fd;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:0.88rem;color:#3b1f6e;line-height:1.6;">
-          🪄 Disney's bars are some of the most <strong>uniquely themed drinking experiences anywhere</strong> — magic tricks, interactive effects, pirate singalongs, and cocktails inside a geodesic sphere. Most require advance reservations.
-        </div>
-        <label class="field-label">Check anything that sounds fun!</label>
-
-        <p class="section-label">🏰 In the Parks</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="bar1" name="food" value="The Beak and Barrel (Magic Kingdom — pirate tavern in Adventureland, 45-min session, reservations required)">
-            <label for="bar1"><span class="emoji">🏴‍☠️</span>The Beak &amp; Barrel <span style="font-size:0.7rem;color:#888;">(MK · pirate tavern · res. required)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar2" name="food" value="GEO-82 Bar & Lounge (EPCOT — inside Spaceship Earth, adult 21+, craft cocktails & small plates, reservations required)">
-            <label for="bar2"><span class="emoji">🌐</span>GEO-82 Lounge <span style="font-size:0.7rem;color:#888;">(EPCOT · inside Spaceship Earth · 21+ · res. required)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar3" name="food" value="GEO-82 Fireworks Experience (EPCOT — premium fireworks viewing from inside Spaceship Earth with Champagne, $179/person)">
-            <label for="bar3"><span class="emoji">🎆</span>GEO-82 Fireworks Experience <span style="font-size:0.7rem;color:#888;">(EPCOT · $179pp · Champagne + fireworks view)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar4" name="food" value="Oga's Cantina (Hollywood Studios — Star Wars bar, reservations recommended, 45-min limit)">
-            <label for="bar4"><span class="emoji">👾</span>Oga's Cantina <span style="font-size:0.7rem;color:#888;">(HS · Star Wars · res. recommended)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar5" name="food" value="Nomad Lounge (Animal Kingdom — next to Tiffins, global cocktails & small plates, walk-up friendly)">
-            <label for="bar5"><span class="emoji">🌍</span>Nomad Lounge <span style="font-size:0.7rem;color:#888;">(AK · walk-up friendly · global cocktails)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar6" name="food" value="La Cava del Tequila (EPCOT Mexico Pavilion — tequila & mezcal bar inside the pyramid)">
-            <label for="bar6"><span class="emoji">🌮</span>La Cava del Tequila <span style="font-size:0.7rem;color:#888;">(EPCOT · Mexico pyramid · tequila &amp; mezcal)</span></label>
-          </div>
-        </div>
-
-        <p class="section-label">🏨 Resort Bars Worth a Trip</p>
-        <div class="check-grid">
-          <div class="check-item">
-            <input type="checkbox" id="bar7" name="food" value="Trader Sam's Grog Grotto (Polynesian Resort — interactive tiki bar, effects trigger when you order specific drinks)">
-            <label for="bar7"><span class="emoji">🍹</span>Trader Sam's Grog Grotto <span style="font-size:0.7rem;color:#888;">(Polynesian · interactive tiki effects)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar8" name="food" value="The Enchanted Rose (Grand Floridian — Beauty and the Beast themed upscale lounge)">
-            <label for="bar8"><span class="emoji">🌹</span>The Enchanted Rose <span style="font-size:0.7rem;color:#888;">(Grand Floridian · B&amp;tB themed · upscale)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar9" name="food" value="AbracadaBar (BoardWalk Resort — Victorian magician themed bar with disappearing tricks in the decor)">
-            <label for="bar9"><span class="emoji">🎩</span>AbracadaBar <span style="font-size:0.7rem;color:#888;">(BoardWalk · Victorian magician themed)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar10" name="food" value="Rose & Crown Pub (EPCOT UK Pavilion — British pub with Luminous fireworks view)">
-            <label for="bar10"><span class="emoji">🇬🇧</span>Rose &amp; Crown Pub <span style="font-size:0.7rem;color:#888;">(EPCOT UK · British pub · fireworks view)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar11" name="food" value="Jock Lindsey's Hangar Bar (Disney Springs — Indiana Jones themed aviation bar)">
-            <label for="bar11"><span class="emoji">🛩️</span>Jock Lindsey's Hangar Bar <span style="font-size:0.7rem;color:#888;">(Disney Springs · Indiana Jones themed)</span></label>
-          </div>
-          <div class="check-item">
-            <input type="checkbox" id="bar12" name="food" value="The Edison (Disney Springs — steampunk Art Deco bar with live entertainment)">
-            <label for="bar12"><span class="emoji">⚙️</span>The Edison <span style="font-size:0.7rem;color:#888;">(Disney Springs · steampunk Art Deco · live entertainment)</span></label>
-          </div>
-        </div>
-      </div>
-
-      <!-- NOTES -->
-      <div class="card">
-        <div class="card-header"><span class="card-icon">💬</span><span class="card-title">Anything Else?</span></div>
-        <label class="field-label">Any must-dos, dealbreakers, dietary needs, or things you're excited about?</label>
-        <textarea id="notes" name="notes" placeholder="e.g. 'I NEED to see Fantasmic!', 'I have dietary restrictions', 'Can we do a park after dark?', 'I want to meet Mickey!'..."></textarea>
-
-        <label class="field-label">Your excitement level for this trip 🎉</label>
-        <div class="radio-group">
-          <div class="radio-item"><input type="radio" id="ex1" name="excitement" value="SO excited 🎉"><label for="ex1">SO excited 🎉</label></div>
-          <div class="radio-item"><input type="radio" id="ex2" name="excitement" value="Pretty pumped! 😄"><label for="ex2">Pretty pumped! 😄</label></div>
-          <div class="radio-item"><input type="radio" id="ex3" name="excitement" value="Cautiously optimistic 😊"><label for="ex3">Cautiously optimistic 😊</label></div>
-          <div class="radio-item"><input type="radio" id="ex4" name="excitement" value="Just here for the food 🍕"><label for="ex4">Just here for the food 🍕</label></div>
-        </div>
-      </div>
-
-      <div class="submit-wrap">
-        <button type="submit">✨ Send My Wishes! ✨</button>
-      </div>
-    </form>
-
-    <div id="thankyou">
-      <span class="firework">🎆</span>
-      <h2>Your wishes have been sent!</h2>
-      <p>Thank you for filling this out!<br/>Cap'n will use your input to plan the most magical trip ever.<br/><br/>See you in January 2027! 🏰✨</p>
-    </div>
-
-  </div><!-- /survey-form-wrap -->
-</div><!-- /panel-survey -->
 
 
 <!-- ═══════════════════════════════════════════
@@ -1156,6 +575,53 @@
       <div class="tip-content">
         <h4>Animal Kingdom — Active Construction Zone</h4>
         <p>The entire DinoLand U.S.A. area is being demolished and replaced by <strong>Tropical Americas</strong> (Encanto + Indiana Jones rides), but that new land won't open until late 2027 at the earliest. Expect the area to be walled off during our visit. Plan accordingly — Animal Kingdom may have fewer attractions than you remember.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 4px solid #d4001c;">
+    <div class="card-header"><span class="card-icon">🏃‍♀️</span><span class="card-title">Marathon Weekend Heads-Up</span></div>
+    <p style="font-size:0.82rem;color:#888;margin:-4px 0 14px;">Our trip overlaps WDW Marathon Weekend (Jan 7–10, 2027) — Kierstyn is racing Sunday Jan 10.</p>
+
+    <div class="tip-item">
+      <span class="tip-icon">🚌</span>
+      <div class="tip-content">
+        <h4>Sunday Jan 10 = Race Day Crowds + Course Closures</h4>
+        <p>The full marathon course winds through all four parks. Expect partial trail closures, bus delays, and large crowds across Marathon Sunday morning. <strong>Don't plan rope-drop or early dining for Jan 10.</strong> Settle into the Lodge, do an easy dinner (Whispering Canyon is right downstairs), and start fresh Monday.</p>
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-icon">🛌</span>
+      <div class="tip-content">
+        <h4>Monday Jan 11 = Marathon Recovery</h4>
+        <p>24–48 hours after a marathon, walking is brutal. Plan a low-mileage Monday for the Boston Group — pool, Disney Springs, or a slow resort day. The KI Group + Cap'n &amp; Veronica may do an optional moderate park day. Group activities resume Tuesday.</p>
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-icon">🎽</span>
+      <div class="tip-content">
+        <h4>Race Expo: Friday + Saturday Jan 8–9</h4>
+        <p>Bib pickup and the runDisney expo are at ESPN Wide World of Sports. Kierstyn + Wesley will be off-property part of those days. Cap'n &amp; Veronica arrive at the Lodge Friday evening Jan 8 after their drive from Ohio.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 4px solid #4a0080;">
+    <div class="card-header"><span class="card-icon">🎨</span><span class="card-title">EPCOT Festival of the Arts</span></div>
+    <p style="font-size:0.82rem;color:#888;margin:-4px 0 14px;">Multiple respondents picked Festival items — these only happen during the Festival window.</p>
+
+    <div class="tip-item">
+      <span class="tip-icon">📅</span>
+      <div class="tip-content">
+        <h4>Expected start: Friday, January 15, 2027</h4>
+        <p>Disney historically starts the Festival the Friday after Marathon Sunday — a 5-day gap, three years running (2024, 2025, 2026). 2027 dates aren't officially announced until late October 2026, but the pattern is essentially clockwork. Festival runs through late February.</p>
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-icon">🗓️</span>
+      <div class="tip-content">
+        <h4>Trip overlap: Jan 15, 16, 17 only</h4>
+        <p>The first 4 days of our trip are pre-Festival. The EPCOT-focused park day will be slotted into the back end of the week so we catch food studios, Figment art, Disney on Broadway live performances, and the festival merchandise.</p>
       </div>
     </div>
   </div>
@@ -1291,10 +757,8 @@
     <div class="card-header"><span class="card-icon">🏅</span><span class="card-title">Pre-Trip Achievement</span></div>
     <p style="font-size:0.9rem;color:#555;line-height:1.6;margin:0;">
       <strong style="color:#92400e;">Kierstyn</strong> is running the
-      <strong style="color:#92400e;">Walt Disney World Marathon</strong> on
-      <strong style="color:#92400e;">January 9th</strong> — the day before the group arrives! 🎽
-      She'll be joining everyone fresh off 26.2 miles through all four parks.
-      Consider giving her a slightly lighter first day. 😄
+      <strong style="color:#92400e;">Walt Disney World Marathon</strong> the
+      <strong style="color:#92400e;">morning of Sunday, January 10</strong> — racing 26.2 miles through all four parks the same day the rest of us arrive. 🎽 Wesley flies in with her on Friday Jan 8 to support; the race expo is at ESPN Wide World of Sports Fri/Sat. Plan a lighter Monday Jan 11 — 24 to 48 hours post-marathon, walking is brutal.
     </p>
   </div>
 
@@ -1407,9 +871,23 @@
 <script>
 const CONFIG = {
 
-  // ── Survey ──────────────────────────────────────────────
-  // Set to false once everyone has responded
-  surveyOpen: true,
+  // ── Group Consensus Picks ───────────────────────────────
+  // The 13 attractions every single survey respondent picked.
+  consensusPicks: [
+    { park: 'Magic Kingdom', name: 'Big Thunder Mountain Railroad', icon: '🚂' },
+    { park: 'Magic Kingdom', name: 'Tiana\'s Bayou Adventure',       icon: '🐸' },
+    { park: 'Magic Kingdom', name: 'Haunted Mansion',                icon: '👻' },
+    { park: 'Magic Kingdom', name: 'Pirates of the Caribbean',       icon: '🏴‍☠️' },
+    { park: 'Magic Kingdom', name: 'Jungle Cruise',                  icon: '🚤' },
+    { park: 'Magic Kingdom', name: 'Dole Whip at Aloha Isle',        icon: '🍦' },
+    { park: 'EPCOT',         name: 'Remy\'s Ratatouille Adventure',  icon: '🐀' },
+    { park: 'EPCOT',         name: 'Gran Fiesta Tour (Mexico)',      icon: '🌮' },
+    { park: 'EPCOT',         name: 'Eat & Drink Around the World',   icon: '🍽️' },
+    { park: 'Hollywood Studios', name: 'Rock \'n\' Roller Coaster (now Muppets)', icon: '🎸' },
+    { park: 'Animal Kingdom',name: 'Expedition Everest',             icon: '🏔️' },
+    { park: 'Animal Kingdom',name: 'Kilimanjaro Safaris',            icon: '🦁' },
+    { park: 'Animal Kingdom',name: 'Pandora at Night',               icon: '💎' },
+  ],
 
   // ── Announcements ───────────────────────────────────────
   // Add new announcements at the TOP (most recent first)
@@ -1417,7 +895,11 @@ const CONFIG = {
   announcements: [
     {
       date: 'April 2026',
-      text: '🏰 Hotel is booked! We\'re staying at Copper Creek Villas & Cabins at Wilderness Lodge, Jan 10–17. Fill out the survey so we can plan the perfect park days!'
+      text: '✅ All 5 surveys are in — thanks Teagan, LaShaye, Bailey, Wesley & Kierstyn! Group consensus picks are now showing on the Home page. Cap\'n & Veronica are working through the day-by-day plan; expect itinerary updates over the summer.'
+    },
+    {
+      date: 'April 2026',
+      text: '🏰 Hotel is booked: Copper Creek Villas & Cabins at Wilderness Lodge, Jan 10–17, 2027. 2-bedroom villa, full kitchen, washer/dryer — see the Group tab for floor plan and bed assignments.'
     },
     // Add more announcements above this line
   ],
@@ -1428,46 +910,58 @@ const CONFIG = {
   // park: 'Magic Kingdom' = sets the park badge
   itinerary: [
     {
-      day: 'Sun · Jan 10',
-      label: 'Arrival Day',
+      day: 'Fri · Jan 8',
+      label: 'Early Arrivals · Boston Group + Cap\'n / Veronica',
       park: null,
-      notes: 'Check in at Wilderness Lodge. Explore the resort, grab dinner, and get oriented.'
+      notes: 'Kierstyn & Wesley fly in for Marathon Weekend (race expo + bib pickup). Cap\'n & Veronica arrive after their 2-day drive from Ohio. Easy first night — likely Whispering Canyon Cafe at the Lodge for dinner.'
+    },
+    {
+      day: 'Sat · Jan 9',
+      label: 'Pre-Marathon Day',
+      park: null,
+      notes: 'Kierstyn rests/tapers before the marathon. Wesley + Cap\'n + Veronica have a flexible day — possible Hollywood Studios half-day to ease Wesley into Disney before the crowds, or a low-key Disney Springs afternoon.'
+    },
+    {
+      day: 'Sun · Jan 10',
+      label: 'Marathon Sunday + Group Arrival',
+      park: null,
+      notes: 'Kierstyn runs the WDW Marathon (3am alarm 🏃‍♀️ — go Kierstyn!). KI Group flies in. Cap\'n & Veronica handle airport pickup. Marathon course closures across all 4 parks → no rope-drop today. Settle in, group dinner, early bedtime for the runner.'
     },
     {
       day: 'Mon · Jan 11',
-      label: 'Park Day 1',
+      label: 'Marathon Recovery Day',
       park: 'TBD',
-      notes: ''
+      notes: 'Kierstyn cannot do a full park day (24–48hrs post-marathon = brutal walking). Boston Group rests. KI Group + Cap\'n / Veronica may do an optional moderate park day. Group activities resume Tuesday.'
     },
     {
       day: 'Tue · Jan 12',
+      label: 'Park Day 1 · Full Group',
+      park: 'TBD',
+      notes: 'First day with all 7 travelers. Park TBD.'
+    },
+    {
+      day: 'Wed · Jan 13',
       label: 'Park Day 2',
       park: 'TBD',
       notes: ''
     },
     {
-      day: 'Wed · Jan 13',
+      day: 'Thu · Jan 14',
       label: 'Park Day 3',
       park: 'TBD',
       notes: ''
     },
     {
-      day: 'Thu · Jan 14',
-      label: 'Park Day 4',
-      park: 'TBD',
-      notes: ''
-    },
-    {
       day: 'Fri · Jan 15',
-      label: 'Park Day 5',
+      label: 'Park Day 4 · Festival of the Arts opens',
       park: 'TBD',
-      notes: ''
+      notes: 'EPCOT International Festival of the Arts is expected to open today (Disney historically starts it the Friday after Marathon Sunday — confirmed pattern 3 years running). EPCOT day must fall Jan 15, 16, or 17 to catch the Festival.'
     },
     {
       day: 'Sat · Jan 16',
-      label: 'Flex / Resort Day',
-      park: null,
-      notes: 'Pool day, Disney Springs, or bonus park time. Decide as a group!'
+      label: 'Park Day 5',
+      park: 'TBD',
+      notes: 'Festival of the Arts in full swing.'
     },
     {
       day: 'Sun · Jan 17',
@@ -1517,7 +1011,7 @@ const CONFIG = {
       group: "Cap'n &amp; Veronica",
       icon: '🚗',
       mode: 'drive',
-      note: 'Driving down from home',
+      note: 'Driving from Ohio — 12 hours split over 2 days. On the road Jan 7–8, arriving Wilderness Lodge afternoon/evening Jan 8. Will have the car on-property for grocery runs, airport pickups, and Disney Springs trips.',
       inbound:  null,
       outbound: null,
     },
@@ -1525,7 +1019,7 @@ const CONFIG = {
       group: 'The KI Group',
       icon: '✈️',
       mode: 'fly',
-      note: null,
+      note: 'Flying in Sunday Jan 10. Cap\'n & Veronica will pick you up from MCO.',
       inbound:  null,  // e.g. 'AA1234 · Jan 10 · departs 7:00am ORD · arrives 10:30am MCO'
       outbound: null,  // e.g. 'AA5678 · Jan 17 · departs 3:00pm MCO · arrives 6:15pm ORD'
     },
@@ -1533,7 +1027,7 @@ const CONFIG = {
       group: 'The Boston Group',
       icon: '✈️',
       mode: 'fly',
-      note: 'Arriving Jan 8 — staying off-site Fri &amp; Sat before joining the group at Wilderness Lodge on Jan 10',
+      note: 'Flying in together Jan 8 for Marathon Weekend. Kierstyn at race expo Fri/Sat, racing Sun Jan 10. Wesley supporting at the finish line.',
       inboundDate: 'Jan 8',
       inbound:  null,  // e.g. 'DL890 · Jan 8 · departs 9:00am BOS · arrives 12:20pm MCO'
       outbound: null,  // e.g. 'DL456 · Jan 17 · departs 4:30pm MCO · arrives 8:00pm BOS'
@@ -1591,14 +1085,6 @@ function showTab(id) {
   el.innerHTML = CONFIG.announcements.map(a =>
     `<div class="announcement"><div class="ann-date">${a.date}</div><p>${a.text}</p></div>`
   ).join('');
-})();
-
-// ── Survey open/closed ──────────────────────────────────
-(function setupSurvey() {
-  if (!CONFIG.surveyOpen) {
-    document.getElementById('survey-form-wrap').style.display = 'none';
-    document.getElementById('survey-closed-msg').style.display = 'block';
-  }
 })();
 
 // ── Itinerary ───────────────────────────────────────────
@@ -1720,46 +1206,14 @@ document.addEventListener('click', e => {
   setTimeout(() => s.remove(), 1000);
 });
 
-// ── First-timer tip ──────────────────────────────────────
-document.querySelectorAll('input[name="experience"]').forEach(r => {
-  r.addEventListener('change', () => {
-    document.getElementById('firsttimer-tip').style.display =
-      r.value === 'No - this is my first time!' ? 'block' : 'none';
-  });
-});
-
-// ── Survey submit → Formspree ────────────────────────────
-const form = document.getElementById('tripForm');
-if (form) {
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.textContent = '✨ Sending…';
-
-    try {
-      const res = await fetch('https://formspree.io/f/maqaeyqk', {
-        method: 'POST',
-        body: new FormData(this),
-        headers: { 'Accept': 'application/json' },
-      });
-      if (res.ok) {
-        document.getElementById('tripForm').style.display = 'none';
-        document.getElementById('thankyou').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const json = await res.json().catch(() => ({}));
-        alert('Submission error: ' + (json.error || res.status + ' — please try again.'));
-        btn.disabled = false;
-        btn.textContent = '✨ Send My Wishes! ✨';
-      }
-    } catch (err) {
-      alert('Network error — check your connection and try again.');
-      btn.disabled = false;
-      btn.textContent = '✨ Send My Wishes! ✨';
-    }
-  });
-}
+// ── Group consensus list ─────────────────────────────────
+(function buildConsensus() {
+  const el = document.getElementById('consensus-list');
+  if (!el || !CONFIG.consensusPicks) return;
+  el.innerHTML = CONFIG.consensusPicks.map(p =>
+    `<div class="consensus-item"><span class="ci-icon">${p.icon}</span><div class="ci-body"><div class="ci-park">${p.park}</div><div class="ci-name">${p.name}</div></div></div>`
+  ).join('');
+})();
 </script>
 </body>
 </html>
