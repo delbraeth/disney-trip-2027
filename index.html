@@ -538,7 +538,7 @@
 <div class="panel" id="panel-itinerary">
   <div class="dark-card" style="margin-bottom:16px">
     <div class="card-header"><span class="card-icon">📅</span><span class="card-title">Trip Itinerary · Jan 10–17, 2027</span></div>
-    <p style="color:#c8d8ff;font-size:0.88rem;line-height:1.6;">Park days and details will be filled in here as plans are finalized. Check back as Cap'n locks things in!</p>
+    <p style="color:#c8d8ff;font-size:0.88rem;line-height:1.6;">Park days and dining are booked. Times are from My Disney Experience — park hours can still change, so check the app the week before.</p>
   </div>
   <div id="itinerary-days"></div>
 
@@ -613,14 +613,14 @@
       <span class="tip-icon">🚌</span>
       <div class="tip-content">
         <h4>Sunday Jan 10 = Race Day Crowds + Course Closures</h4>
-        <p>The full marathon course winds through all four parks. Expect partial trail closures, bus delays, and large crowds across Marathon Sunday morning. <strong>Don't plan rope-drop or early dining for Jan 10.</strong> Settle into the Lodge, do an easy dinner (Whispering Canyon is right downstairs), and start fresh Monday.</p>
+        <p>The full marathon course winds through all four parks. Expect partial trail closures, bus delays, and large crowds across Marathon Sunday morning. <strong>Don't plan rope-drop or early dining for Jan 10.</strong> Settle into the Lodge, then group dinner at The Edison (Disney Springs) at 6:10 PM, and start fresh Monday.</p>
       </div>
     </div>
     <div class="tip-item">
       <span class="tip-icon">💪</span>
       <div class="tip-content">
-        <h4>Monday Jan 11 = Full Group MK Day</h4>
-        <p>Kierstyn's an Iron Man-class athlete — a WDW marathon is a Tuesday for her. Full group hits Magic Kingdom together Monday. (If anyone else is dragging from travel, MK is the smaller-footprint park among the four — easy to pace.)</p>
+        <h4>Monday Jan 11 = Full Group Hollywood Studios Day</h4>
+        <p>Kierstyn's an Iron Man-class athlete — a WDW marathon is a Tuesday for her. Full group hits Hollywood Studios together Monday, with Oga's Cantina for lunch and 'Ohana for dinner.</p>
       </div>
     </div>
     <div class="tip-item">
@@ -639,15 +639,15 @@
     <div class="tip-item">
       <span class="tip-icon">📅</span>
       <div class="tip-content">
-        <h4>Expected start: Friday, January 15, 2027</h4>
-        <p>Disney historically starts the Festival the Friday after Marathon Sunday — a 5-day gap, three years running (2024, 2025, 2026). 2027 dates aren't officially announced until late October 2026, but the pattern is essentially clockwork. Festival runs through late February.</p>
+        <h4>Confirmed: January 15 – March 1, 2027</h4>
+        <p>Disney announced the 2027 dates in September 2026 — the Festival opens Friday, January 15 and runs through March 1, its longest run yet.</p>
       </div>
     </div>
     <div class="tip-item">
       <span class="tip-icon">🗓️</span>
       <div class="tip-content">
         <h4>Trip overlap: Jan 15, 16, 17 only</h4>
-        <p>The first 4 days of our trip are pre-Festival. The EPCOT-focused park day will be slotted into the back end of the week so we catch food studios, Figment art, Disney on Broadway live performances, and the festival merchandise.</p>
+        <p>The first 4 days of our trip are pre-Festival. Our Festival day is Friday Jan 15 — opening day — for food studios, Figment art, Disney on Broadway live performances, and the festival merchandise.</p>
       </div>
     </div>
   </div>
@@ -949,12 +949,20 @@ const CONFIG = {
   // Format: { date: 'Month Year', text: 'Your message here' }
   announcements: [
     {
+      date: 'November 2026',
+      text: '🍽️ Dining is booked! 10 reservations for all 7 of us — The Edison, Oga\'s Cantina, \'Ohana, Whispering Canyon, Chefs de France, Beak and Barrel, Cinderella\'s Royal Table, Tusker House, Storybook Dining at Artist Point, and the Sci-Fi Dine-In Fantasmic! package. Park days are now set too — see the Itinerary tab (note: Hollywood Studios moved to Monday, Magic Kingdom to Wednesday).'
+    },
+    {
+      date: 'November 2026',
+      text: '🎨 Confirmed: EPCOT Festival of the Arts runs Jan 15 – Mar 1, 2027. Our Friday EPCOT day is opening day.'
+    },
+    {
       date: 'April 2026',
       text: '✅ All 5 surveys are in — thanks Teagan, LaShaye, Bailey, Wesley & Kierstyn! Group consensus picks are now showing on the Home page. Cap\'n & Veronica are working through the day-by-day plan; expect itinerary updates over the summer.'
     },
     {
       date: 'April 2026',
-      text: '🏰 Hotel is booked: Copper Creek Villas & Cabins at Wilderness Lodge, Jan 10–17, 2027. 2-bedroom villa, full kitchen, washer/dryer — see the Group tab for floor plan and bed assignments.'
+      text: '🏰 Hotel is booked: Copper Creek Villas & Cabins at Wilderness Lodge, Jan 10–17, 2027 (plus Jan 9 for the early arrivals). 2-bedroom villa, full kitchen, washer/dryer — see the Group tab for floor plan and bed assignments.'
     },
     // Add more announcements above this line
   ],
@@ -968,64 +976,72 @@ const CONFIG = {
       day: 'Sat · Jan 9',
       label: 'Boston Group + Cap\'n / Veronica Arrive',
       park: null,
-      notes: 'Kierstyn & Wesley fly in Saturday morning. Bib pickup + race expo at ESPN Wide World of Sports — last day to grab the bib before Sunday\'s race. Cap\'n & Veronica arrive at Wilderness Lodge after their 2-day drive from Ohio (on the road Jan 8–9). Easy dinner, early bedtime for the runner.'
+      notes: 'Kierstyn & Wesley fly in Saturday morning. Bib pickup + race expo at ESPN Wide World of Sports — last day to grab the bib before Sunday\'s race. Cap\'n & Veronica arrive at Wilderness Lodge after their 2-day drive from Ohio. Room is booked for tonight for the four of us (check-in after 4:00 PM). Easy dinner, early bedtime for the runner.'
     },
     {
       day: 'Sun · Jan 10',
       label: 'Marathon Sunday + KI Group Arrival',
       park: null,
-      notes: 'Kierstyn runs the WDW Marathon (3am alarm 🏃‍♀️ — go Kierstyn!). KI Group flies in. Cap\'n & Veronica handle airport pickup. Marathon course closures across all 4 parks → no rope-drop today. Settle in, group dinner.'
+      notes: 'Kierstyn runs the WDW Marathon (3am alarm 🏃‍♀️ — go Kierstyn!). Wesley at the finish line. KI Group flies in — Cap\'n & Veronica handle the MCO pickup. Marathon course closures across all 4 parks → no park plans today.<br><strong>🍽️ 6:10 PM · The Edison (Disney Springs)</strong> — full group of 7. Celebration dinner for the marathoner! Dress is "dressy casual."'
     },
     {
       day: 'Mon · Jan 11',
-      label: 'Park Day 1 · Magic Kingdom',
-      park: 'Magic Kingdom',
-      notes: 'MK day with the full group. The 5/5 consensus picks anchor the day: Big Thunder, Tiana\'s Bayou Adventure, Haunted Mansion, Pirates, Jungle Cruise, Dole Whip. Plus Space Mountain for the thrill crew, and Enchanted Tales with Belle in Fantasyland if it\'s operating. Adult crew + smaller park = comfortable full day.'
+      label: 'Park Day 1 · Hollywood Studios',
+      park: 'Hollywood Studios',
+      notes: 'Wesley\'s Star Wars day kicks off the trip! Rock \'n\' Roller Coaster (Muppets retheme) is the 5/5 anchor. Plus Rise of the Resistance, Smugglers Run, Tower of Terror, Toy Story Mania. Early Entry 8:30 AM, park 9 AM–9 PM.<br><strong>🍽️ 12:05 PM · Oga\'s Cantina</strong> (Galaxy\'s Edge)<br><strong>🍽️ 6:45 PM · \'Ohana</strong> (Polynesian Village Resort) — plan to leave the park around 5:45 PM to get there.'
     },
     {
       day: 'Tue · Jan 12',
       label: 'Park Day 2 · The EPCOT Day',
       park: 'EPCOT',
-      notes: 'The "EPCOT day" — headliner attractions and a leisurely World Showcase pass: Test Track, Guardians, Soarin\', Remy, Spaceship Earth, Gran Fiesta Tour, Frozen Ever After. Pavilion food/drink picks (Norway aquavit, France crepes, Mexico tequila, Germany Biergarten). Belle in France pavilion if posted. Adult crowd → World Showcase pacing for as long as we want.'
+      notes: 'Breakfast downstairs at the Lodge, then the "EPCOT day" — headliners and a first World Showcase pass: Test Track, Guardians, Soarin\', Remy, Spaceship Earth, Gran Fiesta Tour, Frozen Ever After. Park 9 AM–9 PM.<br><strong>🍽️ 7:30 AM · Whispering Canyon Cafe</strong> (downstairs at Wilderness Lodge)<br><strong>🍽️ 6:40 PM · Chefs de France</strong> (France pavilion) — good night to look for Belle in France before dinner.'
     },
     {
       day: 'Wed · Jan 13',
-      label: 'Park Day 3 · Hollywood Studios',
-      park: 'Hollywood Studios',
-      notes: 'HS day. Rock \'n\' Roller Coaster (Muppets retheme) is the 5/5 anchor. Plus Tower of Terror, Smugglers Run, Toy Story Mania, Indiana Jones Stunt Spectacular. Wesley\'s Star Wars priorities: Rise of the Resistance, Galaxy\'s Edge atmosphere, Oga\'s Cantina (advance reservation). Savi\'s Workshop lightsaber build is a Wesley-only ticketed add-on if booked.'
+      label: 'Park Day 3 · Magic Kingdom',
+      park: 'Magic Kingdom',
+      notes: 'MK day. The 5/5 consensus picks anchor the day: Big Thunder, Tiana\'s Bayou Adventure, Haunted Mansion, Pirates, Jungle Cruise, Dole Whip. Plus Space Mountain for the thrill crew, and Enchanted Tales with Belle in Fantasyland. Park 9 AM–9 PM, and <strong>Extended Evening Hours 9–11 PM</strong> for resort guests — a great window for low-wait rides after dinner.<br><strong>🍽️ 1:05 PM · The Beak and Barrel</strong> (Adventureland)<br><strong>🍽️ 7:25 PM · Cinderella\'s Royal Table</strong> (in the castle)'
     },
     {
       day: 'Thu · Jan 14',
       label: 'Park Day 4 · Animal Kingdom',
       park: 'Animal Kingdom',
-      notes: 'AK day. Early morning safari is the 4/5 must-do — best wildlife viewing of the day. Plus the 5/5 trio: Expedition Everest, Kilimanjaro Safaris, Pandora at night. Avatar Flight of Passage if the group buys in. Festival of the Lion King, Pandora glow at dusk. Animal trails (Maharajah Jungle Trek, Discovery Island, Tree of Life carvings) for those who want them.'
+      notes: 'Early start! Expedition Everest, Kilimanjaro Safaris, Avatar Flight of Passage, Na\'vi River Journey, Festival of the Lion King, plus the animal trails for those who want them. Early Entry 7:30 AM, park 8 AM–6 PM (note the early close).<br><strong>🍽️ 7:35 AM · Tusker House</strong> (Africa) — character breakfast<br><strong>🍽️ 7:30 PM · Storybook Dining at Artist Point with Snow White</strong> (back home at Wilderness Lodge)'
     },
     {
       day: 'Fri · Jan 15',
-      label: 'Park Day 5 · The Festival Day',
+      label: 'Park Day 5 · Festival Opening Day',
       park: 'EPCOT',
-      notes: 'Second EPCOT day on Festival of the Arts opening day. Disney on Broadway live performances, food studios, Figment paint-by-number mural, chalk art demos, festival merch & art prints. Friday avoids the MLK weekend local crowd bump. Concert dining package recommended for guaranteed Disney on Broadway seats.'
+      notes: 'EPCOT Festival of the Arts opens today (confirmed: Jan 15 – Mar 1, 2027)! Food studios, Disney on Broadway concerts, Figment paint-by-number mural, chalk art, festival merch & prints. World Showcase grazing for lunch and dinner — no table-service reservations today. Park 9 AM–9 PM.'
     },
     {
       day: 'Sat · Jan 16',
-      label: 'Disney Springs Day',
-      park: null,
-      notes: 'Disney Springs day — adult-friendly, low-mileage, MLK-weekend-park-crowd-avoiding. Shopping at World of Disney, lunch and drinks across the property. Surveyed favorites here: Jock Lindsey\'s Hangar Bar (Indiana Jones theme, Wesley\'s pick), plus countless lounges and table-service options. Possible evening add-ons: Trader Sam\'s Grog Grotto at the Polynesian, or Hoop-Dee-Doo Musical Revue at Fort Wilderness if reservations land.'
+      label: 'Park Day 6 · Hollywood Studios',
+      park: 'Hollywood Studios',
+      notes: 'Second Studios day — catch anything we missed Monday. Park 9 AM–9 PM.<br><strong>🍽️ 4:10 PM · Sci-Fi Dine-In Theater — Fantasmic! dining package</strong> (reserved seating for the 1st Fantasmic! show).'
     },
     {
       day: 'Sun · Jan 17',
       label: 'Departure Day',
       park: null,
-      notes: 'Check-out and safe travels! Relive the magic on the way home. 🏰'
+      notes: 'Check-out by 11:00 AM. Safe travels home! 🏰'
     },
   ],
 
   // ── Dining Reservations ─────────────────────────────────
   // Add as you book. Leave empty array [] if none yet.
-  // Format: { date: 'Jan 11', time: '6:30 PM', restaurant: 'Name', confirmation: '#12345' }
+  // Confirmation numbers are deliberately NOT shown on this public site — they live in My Disney Experience.
   diningReservations: [
-    // Example (uncomment to use):
-    // { date: 'Jan 11', time: '6:30 PM', restaurant: 'Be Our Guest', confirmation: '#ABC123' },
+    { date: 'Sun Jan 10', time: '6:10 PM', restaurant: 'The Edison · Disney Springs', confirmation: '' },
+    { date: 'Mon Jan 11', time: '12:05 PM', restaurant: 'Oga\'s Cantina · Hollywood Studios', confirmation: '' },
+    { date: 'Mon Jan 11', time: '6:45 PM', restaurant: '\'Ohana · Polynesian Village Resort', confirmation: '' },
+    { date: 'Tue Jan 12', time: '7:30 AM', restaurant: 'Whispering Canyon Cafe · Wilderness Lodge', confirmation: '' },
+    { date: 'Tue Jan 12', time: '6:40 PM', restaurant: 'Chefs de France · EPCOT', confirmation: '' },
+    { date: 'Wed Jan 13', time: '1:05 PM', restaurant: 'The Beak and Barrel · Magic Kingdom', confirmation: '' },
+    { date: 'Wed Jan 13', time: '7:25 PM', restaurant: 'Cinderella\'s Royal Table · Magic Kingdom', confirmation: '' },
+    { date: 'Thu Jan 14', time: '7:35 AM', restaurant: 'Tusker House · Animal Kingdom', confirmation: '' },
+    { date: 'Thu Jan 14', time: '7:30 PM', restaurant: 'Storybook Dining at Artist Point · Wilderness Lodge', confirmation: '' },
+    { date: 'Sat Jan 16', time: '4:10 PM', restaurant: 'Sci-Fi Dine-In · Fantasmic! package · Hollywood Studios', confirmation: '' },
   ],
 
   // ── Group Roster ────────────────────────────────────────
